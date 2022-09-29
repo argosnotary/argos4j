@@ -23,8 +23,8 @@ import com.argosnotary.argos.argos4j.Argos4jSettings;
 import com.argosnotary.argos.argos4j.ArtifactListBuilder;
 import com.argosnotary.argos.argos4j.FileCollector;
 import com.argosnotary.argos.argos4j.ReleaseBuilder;
-import com.argosnotary.argos.domain.link.Artifact;
-import com.argosnotary.argos.domain.release.ReleaseResult;
+import com.argosnotary.argos.argos4j.rest.api.model.Artifact;
+import com.argosnotary.argos.argos4j.rest.api.model.ReleaseResult;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

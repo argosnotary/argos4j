@@ -21,7 +21,7 @@ package com.argosnotary.argos.argos4j.internal;
 
 import com.argosnotary.argos.argos4j.ArtifactListBuilder;
 import com.argosnotary.argos.argos4j.FileCollector;
-import com.argosnotary.argos.domain.link.Artifact;
+import com.argosnotary.argos.argos4j.rest.api.model.Artifact;
 
 import java.util.ArrayList;
 import java.util.List;

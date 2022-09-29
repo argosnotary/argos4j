@@ -38,7 +38,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static java.util.Collections.emptyList;
 
 import com.argosnotary.argos.argos4j.internal.LocalArtifactCollector;
-import com.argosnotary.argos.domain.link.Artifact;
+import com.argosnotary.argos.argos4j.rest.api.model.Artifact;
 
 @ExtendWith(MockitoExtension.class)
 class ArtifactListBuilderTest {
@@ -55,11 +55,17 @@ class ArtifactListBuilderTest {
     private static File fileDir1;
     private static File fileDir2;
     
-    Artifact artifact1 = new Artifact(sharedTempDir.getPath()+"/filedir1/text1.txt", "cb6bdad36690e8024e7df13e6796ae6603f2cb9cf9f989c9ff939b2ecebdcb91");
-    Artifact artifact2 = new Artifact(sharedTempDir.getPath()+"/filedir2/text2.txt", "c1013e3865e452515184b3db2cb812872b429c5b5cf35bafdf17ae41c02a93cf");
+    Artifact artifact1;
+    Artifact artifact2;
 
 	@BeforeEach
-	void setUp() throws Exception {		
+	void setUp() throws Exception {
+		artifact1 = new Artifact();
+		artifact1.setUri(sharedTempDir.getPath()+"/filedir1/text1.txt");
+		artifact1.setHash("cb6bdad36690e8024e7df13e6796ae6603f2cb9cf9f989c9ff939b2ecebdcb91");
+	    artifact2 = new Artifact();
+		artifact2.setUri(sharedTempDir.getPath()+"/filedir2/text2.txt");
+		artifact2.setHash("c1013e3865e452515184b3db2cb812872b429c5b5cf35bafdf17ae41c02a93cf");
 		artifactListBuilder = Argos4j.getArtifactListBuilder();
         fileDir1 = new File(sharedTempDir, "filedir1");
         fileDir1.mkdir();

@@ -21,8 +21,8 @@ package com.argosnotary.argos.argos4j.internal;
 
 import com.argosnotary.argos.argos4j.Argos4jError;
 import com.argosnotary.argos.argos4j.FileCollector;
-import com.argosnotary.argos.domain.crypto.HashUtil;
-import com.argosnotary.argos.domain.link.Artifact;
+import com.argosnotary.argos.argos4j.internal.crypto.HashUtil;
+import com.argosnotary.argos.argos4j.rest.api.model.Artifact;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -53,11 +53,13 @@ public class ZipStreamArtifactCollector {
             ZipEntry entry;
             while ((entry = zis.getNextEntry()) != null) {
                 String fileName = entry.getName();
+                
                 if (!entry.isDirectory() && !excludeMatcher.matches(Paths.get(fileName))) {
-                    artifacts.add(Artifact.builder()
-                            .uri(fileName.replace("\\", "/"))
-                            .hash(HashUtil.createHash(zis, fileName, fileCollector.isNormalizeLineEndings()))
-                            .build());
+                    Artifact artifact = new Artifact();
+                    artifact.setUri(fileName.replace("\\", "/"));
+                    artifact.setHash(HashUtil.createHash(zis, fileName, fileCollector.isNormalizeLineEndings()));
+                	
+                    artifacts.add(artifact);
                 }
             }
         } catch (IOException e) {

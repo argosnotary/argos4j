@@ -19,9 +19,9 @@
  */
 package com.argosnotary.argos.argos4j;
 
-import com.argosnotary.argos.domain.link.Artifact;
-
 import java.util.List;
+
+import com.argosnotary.argos.argos4j.rest.api.model.Artifact;
 
 public interface ArtifactListBuilder {
 

@@ -21,7 +21,7 @@ package com.argosnotary.argos.argos4j.internal;
 
 import com.argosnotary.argos.argos4j.Argos4jError;
 import com.argosnotary.argos.argos4j.LocalZipFileCollector;
-import com.argosnotary.argos.domain.link.Artifact;
+import com.argosnotary.argos.argos4j.rest.api.model.Artifact;
 
 import java.io.FileInputStream;
 import java.io.IOException;

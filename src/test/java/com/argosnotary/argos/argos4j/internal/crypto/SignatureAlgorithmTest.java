@@ -17,12 +17,30 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.argosnotary.argos.argos4j.internal;
+package com.argosnotary.argos.argos4j.internal.crypto;
 
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.*;
 
-import com.argosnotary.argos.argos4j.rest.api.model.Artifact;
+import java.security.GeneralSecurityException;
 
-public interface ArtifactCollector {
-    List<Artifact> collect();
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import com.argosnotary.argos.argos4j.rest.api.model.HashAlgorithm;
+import com.argosnotary.argos.argos4j.rest.api.model.KeyAlgorithm;
+
+class SignatureAlgorithmTest {
+
+    @BeforeEach
+    void setUp() throws Exception {
+    }
+
+    @Test
+    void getAlgorithmTest() throws GeneralSecurityException {
+        Throwable exception = assertThrows(GeneralSecurityException.class, () -> {
+            SignatureAlgorithm.getSignatureAlgorithm(KeyAlgorithm.EC, HashAlgorithm.SHA256);
+          });
+        assertEquals("Combination of algorithms [EC] and [SHA256] not supported", exception.getMessage());
+    }
+
 }

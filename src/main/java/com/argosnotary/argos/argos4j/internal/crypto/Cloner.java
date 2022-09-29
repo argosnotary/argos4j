@@ -17,12 +17,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.argosnotary.argos.argos4j.internal;
+package com.argosnotary.argos.argos4j.internal.crypto;
+
+
+import org.mapstruct.Mapper;
+
+import com.argosnotary.argos.argos4j.rest.api.model.Artifact;
+import com.argosnotary.argos.argos4j.rest.api.model.Link;
 
 import java.util.List;
 
-import com.argosnotary.argos.argos4j.rest.api.model.Artifact;
+/**
+ * By defining all methods, we force MapStruct to generate new objects for each mapper in stead of
+ * taking shortcuts by mapping an object directly.
+ */
+@Mapper
+public interface Cloner {
 
-public interface ArtifactCollector {
-    List<Artifact> collect();
+    Link clone(Link link);
+
+    List<Artifact> cloneArtifacts(List<Artifact> artifacts);
+
+    Artifact clone(Artifact artifact);
+
 }

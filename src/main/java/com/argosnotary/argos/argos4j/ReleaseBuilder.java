@@ -19,7 +19,7 @@
  */
 package com.argosnotary.argos.argos4j;
 
-import com.argosnotary.argos.domain.release.ReleaseResult;
+import com.argosnotary.argos.argos4j.rest.api.model.ReleaseResult;
 
 public interface ReleaseBuilder {
 

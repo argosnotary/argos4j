@@ -22,8 +22,8 @@ package com.argosnotary.argos.argos4j;
 import java.io.Serializable;
 import java.util.List;
 
-import com.argosnotary.argos.domain.link.Artifact;
-import com.argosnotary.argos.domain.link.LinkMetaBlock;
+import com.argosnotary.argos.argos4j.rest.api.model.Artifact;
+import com.argosnotary.argos.argos4j.rest.api.model.LinkMetaBlock;
 
 public interface LinkBuilder extends Serializable {
     Argos4jSettings getSettings();

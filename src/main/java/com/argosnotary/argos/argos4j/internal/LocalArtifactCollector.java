@@ -22,8 +22,9 @@ package com.argosnotary.argos.argos4j.internal;
 
 import com.argosnotary.argos.argos4j.Argos4jError;
 import com.argosnotary.argos.argos4j.LocalFileCollector;
-import com.argosnotary.argos.domain.crypto.HashUtil;
-import com.argosnotary.argos.domain.link.Artifact;
+import com.argosnotary.argos.argos4j.internal.crypto.HashUtil;
+import com.argosnotary.argos.argos4j.rest.api.model.Artifact;
+
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedInputStream;
@@ -81,8 +82,11 @@ public class LocalArtifactCollector implements ArtifactCollector {
                 // normalize path separator and create Artifact
                 String uri = optionalBasePath.map(basePath -> basePath.relativize(path)).map(Path::toString).orElse(path.toString());
 
-                this.artifacts.add(Artifact.builder().uri(uri.replace("\\", "/"))
-                        .hash(createHash(path.toString())).build());
+                Artifact artifact = new Artifact();
+                artifact.setUri(uri.replace("\\", "/"));
+                artifact.setHash(createHash(path.toString()));
+
+                this.artifacts.add(artifact);
             } else {
                 if ((Files.isSymbolicLink(path) && fileCollector.isFollowSymlinkDirs())
                         || (path.toFile().isDirectory() && !Files.isSymbolicLink(path))) {

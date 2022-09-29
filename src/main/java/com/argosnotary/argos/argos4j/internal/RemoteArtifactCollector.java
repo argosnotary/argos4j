@@ -27,8 +27,9 @@ import com.argosnotary.argos.argos4j.RemoteCollector;
 import com.argosnotary.argos.argos4j.RemoteCollectorCollector;
 import com.argosnotary.argos.argos4j.RemoteFileCollector;
 import com.argosnotary.argos.argos4j.RemoteZipFileCollector;
-import com.argosnotary.argos.domain.crypto.HashUtil;
-import com.argosnotary.argos.domain.link.Artifact;
+import com.argosnotary.argos.argos4j.internal.crypto.HashUtil;
+import com.argosnotary.argos.argos4j.rest.api.model.Artifact;
+
 import feign.Client;
 import feign.Request;
 import feign.RequestTemplate;
@@ -105,7 +106,12 @@ public class RemoteArtifactCollector implements ArtifactCollector {
             String fileName = Optional.ofNullable(((RemoteFileCollector) remoteCollector).getArtifactUri())
                     .orElseGet(() -> remoteCollector.getUrl().getPath().substring(remoteCollector.getUrl().getPath().lastIndexOf('/') + 1));
             String hash = HashUtil.createHash(response.body().asInputStream(), fileName, remoteCollector.isNormalizeLineEndings());
-            return Collections.singletonList(Artifact.builder().hash(hash).uri(fileName).build());
+            
+            Artifact artifact = new Artifact();
+            artifact.setUri(fileName);
+            artifact.setHash(hash);
+            
+            return Collections.singletonList(artifact);
         } else if (remoteCollector.getClass() == RemoteCollectorCollector.class) {
             ObjectMapper objectMapper = new ObjectMapper();            
             return objectMapper.readValue(response.body().asInputStream(), new TypeReference<List<Artifact>>(){});

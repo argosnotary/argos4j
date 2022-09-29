@@ -17,27 +17,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.argosnotary.argos.argos4j.internal;
+package com.argosnotary.argos.argos4j.internal.crypto;
 
-import com.argosnotary.argos.argos4j.internal.mapper.RestMapper;
-import com.argosnotary.argos.argos4j.rest.api.model.RestLinkMetaBlock;
-import com.argosnotary.argos.domain.link.Link;
-import com.argosnotary.argos.domain.link.LinkMetaBlock;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import com.argosnotary.argos.argos4j.rest.api.model.Artifact;
+import com.argosnotary.argos.argos4j.rest.api.model.Layout;
+import com.argosnotary.argos.argos4j.rest.api.model.Link;
+import com.argosnotary.argos.argos4j.rest.api.model.Step;
 
-class RestMapperTest {
+class ClonerTest {
+
+    @BeforeEach
+    void setUp() throws Exception {
+    }
 
     @Test
-    void testOnNullValues() {
-        RestMapper mapper = Mappers.getMapper(RestMapper.class);
-        LinkMetaBlock linkMetaBlock = LinkMetaBlock.builder().link(Link.builder().build()).build();
-        RestLinkMetaBlock metablock = mapper.convertToRestLinkMetaBlock(linkMetaBlock);
-
-        assertNotNull(metablock.getLink().getMaterials());
-        assertNotNull(metablock.getLink().getProducts());
-
+    void nullsTest() {
+        assertNull(Mappers.getMapper(Cloner.class).clone((Link)null));
+        assertNull(Mappers.getMapper(Cloner.class).clone((Artifact)null));
+        assertNull(Mappers.getMapper(Cloner.class).cloneArtifacts((List<Artifact>)null));
     }
+
 }

@@ -24,22 +24,18 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.argosnotary.argos.argos4j.Argos4jError;
 import com.argosnotary.argos.argos4j.Argos4jSettings;
 import com.argosnotary.argos.argos4j.VerificationResult;
-import com.argosnotary.argos.argos4j.internal.mapper.RestMapper;
+import com.argosnotary.argos.argos4j.internal.crypto.HashUtil;
 import com.argosnotary.argos.argos4j.rest.api.ApiClient;
 import com.argosnotary.argos.argos4j.rest.api.client.LinkApi;
 import com.argosnotary.argos.argos4j.rest.api.client.ReleaseApi;
 import com.argosnotary.argos.argos4j.rest.api.client.ServiceAccountApi;
 import com.argosnotary.argos.argos4j.rest.api.client.SupplychainApi;
 import com.argosnotary.argos.argos4j.rest.api.client.VerificationApi;
-import com.argosnotary.argos.argos4j.rest.api.model.RestArtifact;
-import com.argosnotary.argos.argos4j.rest.api.model.RestLinkMetaBlock;
-import com.argosnotary.argos.argos4j.rest.api.model.RestReleaseArtifacts;
-import com.argosnotary.argos.argos4j.rest.api.model.RestReleaseResult;
-import com.argosnotary.argos.argos4j.rest.api.model.RestServiceAccountKeyPair;
-import com.argosnotary.argos.domain.crypto.ServiceAccountKeyPair;
-import com.argosnotary.argos.domain.link.Artifact;
-import com.argosnotary.argos.domain.link.LinkMetaBlock;
-import com.argosnotary.argos.domain.release.ReleaseResult;
+import com.argosnotary.argos.argos4j.rest.api.model.Artifact;
+import com.argosnotary.argos.argos4j.rest.api.model.LinkMetaBlock;
+import com.argosnotary.argos.argos4j.rest.api.model.ReleaseArtifacts;
+import com.argosnotary.argos.argos4j.rest.api.model.ReleaseResult;
+import com.argosnotary.argos.argos4j.rest.api.model.ServiceAccountKeyPair;
 
 import feign.FeignException;
 import org.mapstruct.factory.Mappers;
@@ -61,15 +57,14 @@ public class ArgosServiceClient {
         this.settings = settings;
         apiClient = new ApiClient("basicAuth").setBasePath(settings.getArgosServerBaseUrl());
 
-        apiClient.setCredentials(settings.getKeyId(), ServiceAccountKeyPair.calculateHashedPassphrase(settings.getKeyId(), new String(signingKeyPassphrase)));
+        apiClient.setCredentials(settings.getKeyId(), HashUtil.calculateHashedPassphrase(settings.getKeyId(), new String(signingKeyPassphrase)));
         apiClient.getObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
     }
 
     public void uploadLinkMetaBlockToService(LinkMetaBlock linkMetaBlock) {
         try {
             LinkApi linkApi = apiClient.buildClient(LinkApi.class);
-            RestLinkMetaBlock restLinkMetaBlock = Mappers.getMapper(RestMapper.class).convertToRestLinkMetaBlock(linkMetaBlock);
-            linkApi.createLink(getSupplyChainId(), restLinkMetaBlock);
+            linkApi.createLink(getSupplyChainId(), linkMetaBlock);
         } catch (FeignException e) {
             throw convertToArgos4jError(e);
         }
@@ -89,15 +84,14 @@ public class ArgosServiceClient {
     public ReleaseResult release(List<List<Artifact>> artifactsList) {
         try {
             ReleaseApi releaseApi = apiClient.buildClient(ReleaseApi.class);
-            List<List<RestArtifact>> restArtifactsList = Mappers.getMapper(RestMapper.class).convertToRestArtifactsList(artifactsList);
-            RestReleaseResult releaseResult = releaseApi.createRelease(getSupplyChainId(), new RestReleaseArtifacts().releaseArtifacts(restArtifactsList));
-            return Mappers.getMapper(RestMapper.class).convertToReleaseResult(releaseResult);
+            ReleaseResult releaseResult = releaseApi.createRelease(getSupplyChainId(), new ReleaseArtifacts().releaseArtifacts(artifactsList));
+            return releaseResult;
         } catch (FeignException e) {
             throw convertToArgos4jError(e);
         }
     }
 
-    public RestServiceAccountKeyPair getKeyPair() {
+    public ServiceAccountKeyPair getKeyPair() {
         try {
             ServiceAccountApi keyApi = apiClient.buildClient(ServiceAccountApi.class);
             return keyApi.getServiceAccountKey();

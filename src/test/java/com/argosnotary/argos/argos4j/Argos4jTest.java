@@ -25,10 +25,9 @@ import com.github.tomakehurst.wiremock.matching.RequestPattern;
 import com.github.tomakehurst.wiremock.verification.LoggedRequest;
 import com.argosnotary.argos.argos4j.internal.ArtifactCollectorFactory;
 import com.argosnotary.argos.argos4j.internal.ArtifactListBuilderImpl;
-import com.argosnotary.argos.argos4j.rest.api.model.RestKeyPair;
-import com.argosnotary.argos.argos4j.rest.api.model.RestReleaseDossierMetaData;
-import com.argosnotary.argos.argos4j.rest.api.model.RestReleaseResult;
-import com.argosnotary.argos.domain.release.ReleaseResult;
+import com.argosnotary.argos.argos4j.rest.api.model.KeyPair;
+import com.argosnotary.argos.argos4j.rest.api.model.ReleaseDossierMetaData;
+import com.argosnotary.argos.argos4j.rest.api.model.ReleaseResult;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.AfterEach;
@@ -94,10 +93,10 @@ class Argos4jTest {
         wireMockServer = new WireMockServer(randomPort);
         wireMockServer.start();
 
-        RestKeyPair restKeyPair = new ObjectMapper().readValue(this.getClass().getResourceAsStream("/keypair.json"), RestKeyPair.class);
-        keyId = restKeyPair.getKeyId();
+        KeyPair keyPair = new ObjectMapper().readValue(this.getClass().getResourceAsStream("/keypair.json"), KeyPair.class);
+        keyId = keyPair.getKeyId();
 
-        restKeyPairRest = new ObjectMapper().writeValueAsString(restKeyPair);
+        restKeyPairRest = new ObjectMapper().writeValueAsString(keyPair);
 
         settings = Argos4jSettings.builder()
                 .argosServerBaseUrl("http://localhost:" + randomPort + "/api")
@@ -110,8 +109,8 @@ class Argos4jTest {
         linkBuilder = argos4j.getLinkBuilder(LinkBuilderSettings.builder().stepName("build").build());
         verifyBuilder = argos4j.getVerifyBuilder(null);
         releaseBuilder = argos4j.getReleaseBuilder();
-        RestReleaseDossierMetaData restReleaseDossierMetaData = new RestReleaseDossierMetaData().addReleaseArtifactsItem(Arrays.asList("cb6bdad36690e8024e7df13e6796ae6603f2cb9cf9f989c9ff939b2ecebdcb91"));
-        releaseResult = new ObjectMapper().writeValueAsString(new RestReleaseResult().releaseIsValid(true).releaseDossierMetaData(restReleaseDossierMetaData));
+        ReleaseDossierMetaData restReleaseDossierMetaData = new ReleaseDossierMetaData().addReleaseArtifactsItem(Arrays.asList("cb6bdad36690e8024e7df13e6796ae6603f2cb9cf9f989c9ff939b2ecebdcb91"));
+        releaseResult = new ObjectMapper().writeValueAsString(new ReleaseResult().releaseIsValid(true).releaseDossierMetaData(restReleaseDossierMetaData));
         
         
     }
@@ -134,7 +133,7 @@ class Argos4jTest {
         linkBuilder.store(KEY_PASSPHRASE);
         List<LoggedRequest> requests = wireMockServer.findRequestsMatching(RequestPattern.everything()).getRequests();
         assertThat(requests, hasSize(3));
-        assertThat(requests.get(2).getBodyAsString(), endsWith(",\"link\":{\"stepName\":\"build\",\"materials\":[{\"uri\":\"text.txt\",\"hash\":\"cb6bdad36690e8024e7df13e6796ae6603f2cb9cf9f989c9ff939b2ecebdcb91\"}],\"products\":[{\"uri\":\"text.txt\",\"hash\":\"cb6bdad36690e8024e7df13e6796ae6603f2cb9cf9f989c9ff939b2ecebdcb91\"}]}}"));
+        assertThat(requests.get(2).getBodyAsString(), startsWith("{\"link\":{\"materials\":[{\"hash\":\"cb6bdad36690e8024e7df13e6796ae6603f2cb9cf9f989c9ff939b2ecebdcb91\",\"uri\":\"text.txt\"}],\"products\":[{\"hash\":\"cb6bdad36690e8024e7df13e6796ae6603f2cb9cf9f989c9ff939b2ecebdcb91\",\"uri\":\"text.txt\"}],\"stepName\":\"build\"},\"signature\":{\"hashAlgorithm\":\"SHA384\",\"keyAlgorithm\":\"EC\",\"keyId\":null,\"signature\":"));
     }
 
     @Test
@@ -149,7 +148,7 @@ class Argos4jTest {
         linkBuilder.store(KEY_PASSPHRASE);
         List<LoggedRequest> requests = wireMockServer.findRequestsMatching(RequestPattern.everything()).getRequests();
         assertThat(requests, hasSize(3));
-        assertThat(requests.get(2).getBodyAsString(), endsWith(",\"link\":{\"stepName\":\"build\",\"materials\":[{\"uri\":\"text.txt\",\"hash\":\"cb6bdad36690e8024e7df13e6796ae6603f2cb9cf9f989c9ff939b2ecebdcb91\"}],\"products\":[{\"uri\":\"text.txt\",\"hash\":\"cb6bdad36690e8024e7df13e6796ae6603f2cb9cf9f989c9ff939b2ecebdcb91\"}]}}"));
+        assertThat(requests.get(2).getBodyAsString(), startsWith("{\"link\":{\"materials\":[{\"hash\":\"cb6bdad36690e8024e7df13e6796ae6603f2cb9cf9f989c9ff939b2ecebdcb91\",\"uri\":\"text.txt\"}],\"products\":[{\"hash\":\"cb6bdad36690e8024e7df13e6796ae6603f2cb9cf9f989c9ff939b2ecebdcb91\",\"uri\":\"text.txt\"}],\"stepName\":\"build\"},\"signature\":{\"hashAlgorithm\":\"SHA384\",\"keyAlgorithm\":\"EC\",\"keyId\":null,\"signature\":"));
     }
 
     @Test
@@ -224,11 +223,11 @@ class Argos4jTest {
                         .builder().path(sharedTempDir.toPath()).basePath(sharedTempDir.toPath()).build())
                 .release("test".toCharArray());
 
-        assertThat(result.isReleaseIsValid(), is(true));
+        assertThat(result.getReleaseIsValid(), is(true));
 
         List<LoggedRequest> requests = wireMockServer.findRequestsMatching(RequestPattern.everything()).getRequests();
         assertThat(requests, hasSize(2));
-        assertThat(requests.get(1).getBodyAsString(), is("{\"releaseArtifacts\":[[{\"uri\":\"text.txt\",\"hash\":\"cb6bdad36690e8024e7df13e6796ae6603f2cb9cf9f989c9ff939b2ecebdcb91\"}]]}"));
+        assertThat(requests.get(1).getBodyAsString(), is("{\"releaseArtifacts\":[[{\"hash\":\"cb6bdad36690e8024e7df13e6796ae6603f2cb9cf9f989c9ff939b2ecebdcb91\",\"uri\":\"text.txt\"}]]}"));
     }
     
     @Test

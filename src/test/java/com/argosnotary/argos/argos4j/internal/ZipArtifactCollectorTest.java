@@ -20,7 +20,8 @@
 package com.argosnotary.argos.argos4j.internal;
 
 import com.argosnotary.argos.argos4j.LocalZipFileCollector;
-import com.argosnotary.argos.domain.link.Artifact;
+import com.argosnotary.argos.argos4j.rest.api.model.Artifact;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -44,10 +45,20 @@ class ZipArtifactCollectorTest {
 
     @Test
     void collect() {
+    	Artifact artifact1 = new Artifact();
+    	artifact1.setUri("META-INF/MANIFEST.MF");
+    	artifact1.setHash("53e5e0a85a6aefa827e2fe34748cd1030c02a492bd9b309dc2f123258a218901");
+        Artifact artifact2 = new Artifact();
+    	artifact2.setUri("argos-test-app.war/argos-test-app.war");
+    	artifact2.setHash("f5e94511d66ffbd76e164b7a5c8ec91727f6435dabce365b53e7f4221edd88ae");
+        Artifact artifact3 = new Artifact();
+    	artifact3.setUri("deployit-manifest.xml");
+    	artifact3.setHash("9c1a8531bbd86414d6cc9929daa19d06a05cf3ca335b4ca7abe717c8f2b5f3ec");
         List<Artifact> collect = collector.collect();
+
         assertThat(collect, contains(
-                Artifact.builder().uri("META-INF/MANIFEST.MF").hash("53e5e0a85a6aefa827e2fe34748cd1030c02a492bd9b309dc2f123258a218901").build(),
-                Artifact.builder().uri("argos-test-app.war/argos-test-app.war").hash("f5e94511d66ffbd76e164b7a5c8ec91727f6435dabce365b53e7f4221edd88ae").build(),
-                Artifact.builder().uri("deployit-manifest.xml").hash("9c1a8531bbd86414d6cc9929daa19d06a05cf3ca335b4ca7abe717c8f2b5f3ec").build()));
+                artifact1,
+                artifact2,
+                artifact3));
     }
 }

@@ -17,12 +17,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.argosnotary.argos.argos4j.internal;
+package com.argosnotary.argos.argos4j.internal.crypto;
 
-import java.util.List;
+import com.argosnotary.argos.argos4j.rest.api.model.Layout;
+import com.argosnotary.argos.argos4j.rest.api.model.Link;
 
-import com.argosnotary.argos.argos4j.rest.api.model.Artifact;
+public interface SigningSerializer {
 
-public interface ArtifactCollector {
-    List<Artifact> collect();
+    String serialize(Link link);
 }

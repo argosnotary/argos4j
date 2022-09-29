@@ -21,7 +21,8 @@ package com.argosnotary.argos.argos4j.internal;
 
 import com.argosnotary.argos.argos4j.Argos4jError;
 import com.argosnotary.argos.argos4j.LocalFileCollector;
-import com.argosnotary.argos.domain.link.Artifact;
+import com.argosnotary.argos.argos4j.rest.api.model.Artifact;
+
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;

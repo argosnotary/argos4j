@@ -53,42 +53,40 @@
 	</scm>
 
 	<properties>
-		<argos-domain.version>${project.version}</argos-domain.version>
-		<feign.version>11.8</feign.version>
+	    <bouncycastle.version>1.70</bouncycastle.version>
+		<commons-codec.version>1.14</commons-codec.version>
+		<commons-io.version>2.8.0</commons-io.version>
 		<feign-form.version>3.8.0</feign-form.version>
+		<feign.version>11.10</feign.version>
 		<hamcrest-library.version>2.2</hamcrest-library.version>
-		<jackson-version>2.13.0</jackson-version>
-		<jackson-databind.version>2.13.1</jackson-databind.version>
-		<jackson-databind-nullable.version>0.2.2</jackson-databind-nullable.version>
-		<jackson-datatype-jsr310.version>2.13.1</jackson-datatype-jsr310.version>
-		<jacoco-maven-plugin.version>0.8.7</jacoco-maven-plugin.version>
-		<java.version>17</java.version>
+		<jackson-databind-nullable.version>0.2.3</jackson-databind-nullable.version>
+		<jackson.version>2.13.4</jackson.version>
+		<jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
 		<javax.annotation-api.version>1.3.2</javax.annotation-api.version>
-		<jcl-over-slf4j.version>1.7.36</jcl-over-slf4j.version>
+		<jcl-over-slf4j.version>2.0.3</jcl-over-slf4j.version>
 		<jsr305.version>3.0.2</jsr305.version>
-		<junit.version>5.8.2</junit.version>
+		<junit.version>5.9.1</junit.version>
 		<license-maven-plugin.version>4.1</license-maven-plugin.version>
 		<logback-classic.version>1.2.10</logback-classic.version>
-		<lombok.version>1.18.22</lombok.version>
 		<lombok-maven-plugin.version>1.18.20.0</lombok-maven-plugin.version>
-		<mapstruct.version>1.4.1.Final</mapstruct.version>
-		<maven-compiler-plugin.version>3.9.0</maven-compiler-plugin.version>
-		<maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
-		<maven-javadoc-plugin.version>3.3.2</maven-javadoc-plugin.version>
-		<maven-shade-plugin.version>3.2.4</maven-shade-plugin.version>
+		<lombok.version>1.18.24</lombok.version>
+		<mapstruct.version>1.5.2.Final</mapstruct.version>
+		<maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
+		<maven-deploy-plugin.version>3.0.0</maven-deploy-plugin.version>
+		<maven-javadoc-plugin.version>3.4.1</maven-javadoc-plugin.version>
 		<maven-source-plugin.version>3.2.1</maven-source-plugin.version>
 		<maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
-		<mockito-junit-jupiter.version>4.3.1</mockito-junit-jupiter.version>
-		<openapi-generator-maven-plugin.version>5.3.1</openapi-generator-maven-plugin.version>
-		<pitest-junit5-plugin.version>0.15</pitest-junit5-plugin.version>
-		<pitest-maven.version>1.7.4</pitest-maven.version>
-		<slf4j-api.version>1.7.36</slf4j-api.version>
-		<sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version>
-		<swagger-annotations.version>1.6.5</swagger-annotations.version>
-		<wiremock.version>2.27.2</wiremock.version>
+		<mockito-junit-jupiter.version>4.8.0</mockito-junit-jupiter.version>
+		<openapi-generator-maven-plugin.version>6.2.0</openapi-generator-maven-plugin.version>
+		<pitest-junit5-plugin.version>1.1.0</pitest-junit5-plugin.version>
+		<pitest-maven.version>1.9.5</pitest-maven.version>
 		<scribejava-apis-version>8.3.1</scribejava-apis-version>
+		<slf4j-api.version>2.0.3</slf4j-api.version>
+		<sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version>
+		<swagger-annotations.version>1.6.7</swagger-annotations.version>
+		<wiremock.version>2.27.2</wiremock.version>
 
-
+		<java.version>17</java.version>
 		<maven.build.timestamp.format>dd-MM-yyyy HH:mm</maven.build.timestamp.format>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<sonar.exclusions>file:**/generated-sources/**</sonar.exclusions>
@@ -96,11 +94,28 @@
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>com.google.code.findbugs</groupId>
-			<artifactId>jsr305</artifactId>
-			<version>${jsr305.version}</version>
-		</dependency>
+		
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpkix-jdk15on</artifactId>
+            <version>${bouncycastle.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>${bouncycastle.version}</version>
+        </dependency>
+        <dependency>
+	        <groupId>commons-io</groupId>
+	        <artifactId>commons-io</artifactId>
+	        <version>${commons-io.version}</version>
+	    </dependency>
+	        
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+	            <version>${commons-codec.version}</version>
+        </dependency>
 		<dependency>
 			<groupId>io.swagger</groupId>
 			<artifactId>swagger-annotations</artifactId>
@@ -128,17 +143,14 @@
         <dependency>
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-core</artifactId>
-            <version>${feign.version}</version>
         </dependency>
         <dependency>
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-jackson</artifactId>
-            <version>${feign.version}</version>
         </dependency>
         <dependency>
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-slf4j</artifactId>
-            <version>${feign.version}</version>
         </dependency>
         <dependency>
             <groupId>io.github.openfeign.form</groupId>
@@ -148,14 +160,13 @@
         <dependency>
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-okhttp</artifactId>
-            <version>${feign.version}</version>
         </dependency>
 
         <!-- JSON processing: jackson -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>${jackson-databind.version}</version>
+            <version>${jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>org.openapitools</groupId>
@@ -165,7 +176,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>${jackson-version}</version>
+            <version>${jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.scribejava</groupId>
@@ -177,6 +188,11 @@
             <artifactId>javax.annotation-api</artifactId>
             <version>${javax.annotation-api.version}</version>
         </dependency>
+		<dependency>
+			<groupId>com.google.code.findbugs</groupId>
+			<artifactId>jsr305</artifactId>
+			<version>${jsr305.version}</version>
+		</dependency>
 		
 		<!-- For testing -->
         <dependency>
@@ -225,9 +241,20 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-
+			<dependency>
+				<groupId>com.fasterxml.jackson</groupId>
+				<artifactId>jackson-bom</artifactId>
+				<version>${jackson.version}</version>
+				<type>pom</type>
+			</dependency>
+			<dependency>
+  				<groupId>io.github.openfeign</groupId>
+  				<artifactId>feign-bom</artifactId>
+  				<version>${feign.version}</version>
+  				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
 		</dependencies>
-
 	</dependencyManagement>
 
 	<distributionManagement>
@@ -358,8 +385,7 @@
 						</goals>
 						<configuration>
 							<!-- specify the swagger yaml -->
-							<!-- <inputSpec>https://raw.githubusercontent.com/argosnotary/argos-service-parent/master/argos-service-api/api.yml</inputSpec> -->
-							<inputSpec>/home/borstg/git/argos-service-parent/argos-service-api/api.yml</inputSpec>
+							<inputSpec>https://raw.githubusercontent.com/argosnotary/argos-service-parent/master/argos-service-api/api.yml</inputSpec>
 
 							<!-- target to generate java client code -->
 							<generatorName>java</generatorName>
@@ -375,7 +401,6 @@
 							<!-- override the default library to jersey2 -->
 							<library>feign</library>
 
-							<modelNamePrefix>Rest</modelNamePrefix>
 							<apiPackage>com.argosnotary.argos.argos4j.rest.api.client</apiPackage>
 							<modelPackage>com.argosnotary.argos.argos4j.rest.api.model</modelPackage>
 						</configuration>
@@ -396,28 +421,6 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-shade-plugin</artifactId>
-				<version>${maven-shade-plugin.version}</version>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>shade</goal>
-						</goals>
-						<configuration>
-							<createDependencyReducedPom>true</createDependencyReducedPom>
-							<!-- <promoteTransitiveDependencies>true</promoteTransitiveDependencies> -->
-							<artifactSet>
-								<includes>
-									<include>com.argosnotary.argos:argos-domain</include>
-								</includes>
-							</artifactSet>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
 				<groupId>com.mycila</groupId>
 				<artifactId>license-maven-plugin</artifactId>
 				<version>${license-maven-plugin.version}</version>
@@ -426,18 +429,19 @@
 					<failIfMissing>true</failIfMissing>
 					<strictCheck>true</strictCheck>
 					<aggregate>false</aggregate>
-					<excludes>
-						<exclude>target/**</exclude>
-					</excludes>
-					<useDefaultExcludes>true</useDefaultExcludes>
-					<header>https://raw.github.com/argosnotary/argos/master/docs/header.txt</header>
-					<properties>
-						<lic.year>2020</lic.year>
-					</properties>
-					<encoding>UTF-8</encoding>
+					<licenseSets>
+	      				<licenseSet>
+							<excludes>
+								<exclude>target/**</exclude>
+							</excludes>
+							<useDefaultExcludes>true</useDefaultExcludes>
+							<header>https://raw.github.com/argosnotary/argos/master/docs/header.txt</header>
+      					</licenseSet>
+    				</licenseSets>
 					<mapping>
 						<java>SLASHSTAR_STYLE</java>
 					</mapping>
+					<encoding>UTF-8</encoding>
 				</configuration>
 				<executions>
 					<execution>
@@ -484,10 +488,9 @@
 					</avoidCallsTo>
 					<excludedClasses>
 						<excludedClasse>com.argosnotary.argos.argos4j.rest.api.*</excludedClasse>
-						<excludedClasse>*MapperImpl</excludedClasse>
 					</excludedClasses>
 					<targetClasses>
-						<param>com.argosnotary.argos.*</param>
+						<param>com.argosnotary.argos.argos4j.*</param>
 					</targetClasses>
 					<outputFormats>
 						<format>XML</format>

@@ -24,7 +24,8 @@ import com.argosnotary.argos.argos4j.ArtifactListBuilder;
 import com.argosnotary.argos.argos4j.FileCollector;
 import com.argosnotary.argos.argos4j.VerificationResult;
 import com.argosnotary.argos.argos4j.VerifyBuilder;
-import com.argosnotary.argos.domain.link.Artifact;
+import com.argosnotary.argos.argos4j.rest.api.model.Artifact;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
