@@ -23,4 +23,4 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn install org.pitest:pitest-maven:mutationCoverage jacoco:report sonar:sonar -Psonar -Dsonar.projectKey=argosnotary_argos-domain -Dsonar.organization=argosnotary -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_LOGIN
+      run: mvn install org.pitest:pitest-maven:mutationCoverage jacoco:report sonar:sonar -Psonar -Dsonar.projectKey=argosnotary_argos4j -Dsonar.organization=argosnotary -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_LOGIN
