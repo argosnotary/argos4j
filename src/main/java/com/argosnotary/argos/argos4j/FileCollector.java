@@ -58,7 +58,7 @@ public abstract class FileCollector implements Serializable {
     private boolean normalizeLineEndings;
 
     
-    public FileCollector(@Nullable String excludePatterns, @Nullable Boolean normalizeLineEndings) {
+    FileCollector(@Nullable String excludePatterns, @Nullable Boolean normalizeLineEndings) {
         this.excludePatterns = Optional.ofNullable(excludePatterns).orElse(DEFAULT_EXCLUDE_PATTERNS);
         this.normalizeLineEndings = Optional.ofNullable(normalizeLineEndings).orElse(false);
     }

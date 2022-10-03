@@ -45,7 +45,7 @@ public class LocalZipFileCollector extends FileCollector {
     /**
      * is the zip file path
      */
-    private Path path;
+    private transient Path path;
 
     @Builder
     public LocalZipFileCollector(

@@ -241,8 +241,9 @@ class Argos4jSettingsTest {
     
     @Test
     void throwErrorReadingFileTest() {
+    	Path path = Paths.get("zomaar-wat");
         Argos4jError argosError = assertThrows(Argos4jError.class, () -> {
-            Argos4jSettings.readSettings(Paths.get("zomaar-wat"));
+            Argos4jSettings.readSettings(path);
         });
         assertThat(argosError.getMessage(), startsWith("Error on reading config file zomaar-wat: "));
     }

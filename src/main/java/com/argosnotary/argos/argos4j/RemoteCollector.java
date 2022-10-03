@@ -56,7 +56,7 @@ public abstract class RemoteCollector extends FileCollector {
      */
     private URL url;
 
-    public RemoteCollector(
+    RemoteCollector(
             @Nullable String excludePatterns, 
             @Nullable Boolean normalizeLineEndings, 
             @Nullable String username, 

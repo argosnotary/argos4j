@@ -49,12 +49,12 @@ public class LocalFileCollector extends FileCollector {
     /**
      * used to make all artifact uris relative from the base path
      */
-    private Path basePath;
+    private transient Path basePath;
 
     /**
      * is the file or directory path
      */
-    private Path path;
+    private transient Path path;
 
     @Builder
     public LocalFileCollector(

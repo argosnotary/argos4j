@@ -38,7 +38,6 @@ import com.argosnotary.argos.argos4j.rest.api.model.ReleaseResult;
 import com.argosnotary.argos.argos4j.rest.api.model.ServiceAccountKeyPair;
 
 import feign.FeignException;
-import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
@@ -84,8 +83,7 @@ public class ArgosServiceClient {
     public ReleaseResult release(List<List<Artifact>> artifactsList) {
         try {
             ReleaseApi releaseApi = apiClient.buildClient(ReleaseApi.class);
-            ReleaseResult releaseResult = releaseApi.createRelease(getSupplyChainId(), new ReleaseArtifacts().releaseArtifacts(artifactsList));
-            return releaseResult;
+            return releaseApi.createRelease(getSupplyChainId(), new ReleaseArtifacts().releaseArtifacts(artifactsList));
         } catch (FeignException e) {
             throw convertToArgos4jError(e);
         }

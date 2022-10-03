@@ -44,8 +44,8 @@ public class Signer {
 	}
 
 	
-	public static KeyAlgorithm DEFAULT_KEY_ALGORITHM = KeyAlgorithm.EC;
-	public static HashAlgorithm DEFAULT_HASH_ALGORITHM = HashAlgorithm.SHA384;
+	public static final KeyAlgorithm DEFAULT_KEY_ALGORITHM = KeyAlgorithm.EC;
+	public static final HashAlgorithm DEFAULT_HASH_ALGORITHM = HashAlgorithm.SHA384;
 
     public static Signature sign(KeyPair keyPair, char[] keyPassphrase, String jsonRepresentation) {
     	Signature sig = new Signature();
