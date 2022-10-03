@@ -345,34 +345,6 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<!-- Download Swagger UI webjar. -->
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>copy-api</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>unpack</goal>
-						</goals>
-						<configuration>
-							<artifactItems>
-								<artifactItem>
-									<groupId>${project.groupId}</groupId>
-									<artifactId>argos-service-api</artifactId>
-									<version>${project.version}</version>
-									<type>jar</type>
-									<overWrite>true</overWrite>
-									<excludes>META-INF/</excludes>
-								</artifactItem>
-							</artifactItems>
-
-							<outputDirectory>${project.build.directory}/api</outputDirectory>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
 				<groupId>org.openapitools</groupId>
 				<artifactId>openapi-generator-maven-plugin</artifactId>
 				<version>${openapi-generator-maven-plugin.version}</version>
@@ -389,15 +361,6 @@
 
 							<!-- target to generate java client code -->
 							<generatorName>java</generatorName>
-
-							<!-- pass any necessary config options -->
-							<configOptions>
-								<dateLibrary>java8</dateLibrary>
-							</configOptions>
-							<typeMappings>
-								<typeMapping>UUID=String</typeMapping>
-							</typeMappings>
-
 							<!-- override the default library to jersey2 -->
 							<library>feign</library>
 
